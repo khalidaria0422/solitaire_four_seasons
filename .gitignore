@@ -1,0 +1,23 @@
+cat << EOF > .gitignore
+
+# build folders
+/build/
+/obj/
+
+# compiled object files
+*.o
+
+# executables
+*.exe
+*.out
+*.app
+
+# os files
+.DS_Store
+
+# neovim swap/session files 
+*.swp
+*.swo
+*.swn
+
+EOF
