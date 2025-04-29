@@ -1,8 +1,9 @@
-cat << EOF > .gitignore
+# .gitignore for C++
 
-# build folders
+# directories (build, docs, etc.)
 /build/
 /obj/
+/docs/
 
 # compiled object files
 *.o
@@ -14,10 +15,11 @@ cat << EOF > .gitignore
 
 # os files
 .DS_Store
+Thumbs.db
 
-# neovim swap/session files 
+# editor configs
+.vscode/
+.idea/
 *.swp
 *.swo
 *.swn
-
-EOF
