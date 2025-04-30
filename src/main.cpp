@@ -13,48 +13,54 @@
 #include "../include/menu.h"
 
 /*
-sf::Color clrBg(34, 40, 49);
-sf::Color clrScnd(57, 62, 60);
-sf::Color clrTbl(148, 137, 121);
-sf::Color clrFnd(223, 208, 184);
+clr primary: 34, 40, 49
+clr secondary: 57, 62, 60
+clr accent: 170, 74, 68
+clr onSecondary: 148, 137, 121
+clr surface: 223, 208, 184
+sf
 */
 
 //---------- init consts ----------//
 const std::string rootPath = std::filesystem::current_path().string(); // path to the root project dir
 const sf::Vector2i SIZE_WIN(1920, 1080);
 const sf::Vector2f SIZE_MENU(static_cast<float>(SIZE_WIN.x) / 2.f, static_cast<float>(SIZE_WIN.y) / 2.f);
-const sf::Vector2f SIZE_SETTINGS(0.f, 0.f);
 
 int main() {
-  //---------- init objs ----------//
-  //---------- sfml ----------//
+  //---------- init vars/objs ----------//
   sf::RenderWindow window(sf::VideoMode(SIZE_WIN.x, SIZE_WIN.y), "Solitaire Four Seasons");
   window.setVerticalSyncEnabled(true);
 
+  // font loading
   sf::Font fontReg, fontBold;
   if (!fontReg.loadFromFile(rootPath + "/assets/fonts/NotoSans-Regular.ttf") || 
       !fontBold.loadFromFile(rootPath + "/assets/fonts/NotoSans-Bold.ttf")) { std::cerr << "Failed to load the fonts." << std::endl; return 1; }
 
-  //---------- user def ----------//
-  Menu menuFull(SIZE_MENU, fontBold); // for creating menus (e.g., main-menu, settings-menu, etc.)
+  // menu creating
+  Menu mainMenu(SIZE_MENU, fontBold);
+  bool renderMenu = true;
 
   //---------- event loop ----------//
   while(window.isOpen()) {
     sf::Event event;
 
-    //---------- I/O events ----------//
     while (window.pollEvent(event)) {
       if (event.type == sf::Event::Closed) window.close(); // close functionality (x button)
 
       //---------- keypresses ----------//
-      if (event.type == sf::Event::KeyPressed) {
+      if (event.type == sf::Event::KeyPressed) { 
         if (event.key.control && event.key.code == sf::Keyboard::W) window.close(); // close functionality (ctrl + w)
-      }
+        if (event.key.code == sf::Keyboard::Escape) renderMenu = false; // [!FIX]
+      } 
+
+      //---------- mouse clicks ----------//
+      // if new game is clicked, close menu and start the game, else, read other btns
+      if (renderMenu) renderMenu = !(mainMenu.btnClicked(window, event));
     }
 
     //---------- clear/draw/display ----------//
     window.clear(sf::Color(34, 40, 49));
-    menuFull.main(window);
+    if (renderMenu) mainMenu.renderMenu(window);
     window.display();
   }
 
