@@ -31,11 +31,12 @@ int main() {
   sf::RenderWindow window(sf::VideoMode(SIZE_WIN.x, SIZE_WIN.y), "Solitaire Four Seasons");
   window.setVerticalSyncEnabled(true);
 
-  sf::Font font;
-  if (!font.loadFromFile(rootPath + "/assets/fonts/NotoSans-Regular.ttf")) { std::cerr << "Failed to load the font." << std::endl; return 1; }
+  sf::Font fontReg, fontBold;
+  if (!fontReg.loadFromFile(rootPath + "/assets/fonts/NotoSans-Regular.ttf") || 
+      !fontBold.loadFromFile(rootPath + "/assets/fonts/NotoSans-Bold.ttf")) { std::cerr << "Failed to load the fonts." << std::endl; return 1; }
 
   //---------- user def ----------//
-  Menu menuFull(SIZE_MENU, font); // for creating menus (e.g., main-menu, settings-menu, etc.)
+  Menu menuFull(SIZE_MENU, fontBold); // for creating menus (e.g., main-menu, settings-menu, etc.)
 
   //---------- event loop ----------//
   while(window.isOpen()) {
