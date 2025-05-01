@@ -1,3 +1,5 @@
+#include "../include/menu.h"
+#include "../include/fonts.h"
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -8,9 +10,6 @@
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-#include <filesystem>
-#include <iostream>
-#include "../include/menu.h"
 
 /*
 clr primary: 34, 40, 49
@@ -22,7 +21,6 @@ sf
 */
 
 //---------- init consts ----------//
-const std::string rootPath = std::filesystem::current_path().string(); // path to the root project dir
 const sf::Vector2i SIZE_WIN(1920, 1080);
 const sf::Vector2f SIZE_MENU(static_cast<float>(SIZE_WIN.x) / 2.f, static_cast<float>(SIZE_WIN.y) / 2.f);
 
@@ -30,14 +28,10 @@ int main() {
   //---------- init vars/objs ----------//
   sf::RenderWindow window(sf::VideoMode(SIZE_WIN.x, SIZE_WIN.y), "Solitaire Four Seasons");
   window.setVerticalSyncEnabled(true);
-
-  // font loading
-  sf::Font fontReg, fontBold;
-  if (!fontReg.loadFromFile(rootPath + "/assets/fonts/NotoSans-Regular.ttf") || 
-      !fontBold.loadFromFile(rootPath + "/assets/fonts/NotoSans-Bold.ttf")) { std::cerr << "Failed to load the fonts." << std::endl; return 1; }
+  Font::loadFont(); // load noto fonts (reg and bold)
 
   // menu creating
-  Menu mainMenu(window, fontBold, SIZE_MENU);
+  Menu mainMenu(window, SIZE_MENU);
   bool renderMenu = true;
 
   //---------- event loop ----------//

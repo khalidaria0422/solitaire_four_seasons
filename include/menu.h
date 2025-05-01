@@ -10,18 +10,17 @@
 class Menu {
 public:
   //---------- 'structors ----------//
-  Menu(sf::RenderWindow& window, const sf::Font& font, const sf::Vector2f& modalSize);
+  Menu(sf::RenderWindow& window, const sf::Vector2f& modalSize);
 
   //---------- utilities ----------//
   void renderMenu();
-  void btnCreate(sf::RectangleShape& btn, const sf::Vector2f& pos, sf::Text& lbl, const std::string& name);
+  void btnCreate(sf::RectangleShape& btn, const sf::Vector2f& btnSize, const sf::Vector2f& pos, sf::Text& lbl, const std::string& name);
   bool btnHovering(sf::RectangleShape& btn, const sf::Text& lbl);
   bool btnClicked(const sf::Event& event);
   void confirmChoice();
 
 private:
   sf::RenderWindow& window;
-  const sf::Font& font;
   const sf::Vector2f& modalSize;
   static const sf::Vector2f BTN_SIZE;
   static const sf::Vector2f BTN_SIZE_SMALL;
@@ -33,15 +32,20 @@ private:
     sf::Vector2f btnExit;
 
     sf::Vector2f modalConf;
+    sf::Vector2f confTitle;
+    sf::Vector2f confDesc;
     sf::Vector2f btnYes;
     sf::Vector2f btnNo;
   } pos;
  
   struct lblType {
+    sf::Text title;
     sf::Text btnNewGame;
     sf::Text btnSettings;
     sf::Text btnExit;
 
+    sf::Text confTitle;
+    sf::Text confDesc;
     sf::Text btnYes;
     sf::Text btnNo;
   } lbl;
