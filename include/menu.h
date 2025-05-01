@@ -10,36 +10,50 @@
 class Menu {
 public:
   //---------- 'structors ----------//
-  Menu(const sf::Vector2f& modalSize, const sf::Font& font); 
+  Menu(sf::RenderWindow& window, const sf::Font& font, const sf::Vector2f& modalSize);
 
   //---------- utilities ----------//
-  void renderMenu(sf::RenderWindow& window);
+  void renderMenu();
   void btnCreate(sf::RectangleShape& btn, const sf::Vector2f& pos, sf::Text& lbl, const std::string& name);
-  bool btnHovering(const sf::RenderWindow& window, sf::RectangleShape& btn, const sf::Text& lbl);
-  bool btnClicked(sf::RenderWindow& window, const sf::Event& event);
-  void newGame();
- 
+  bool btnHovering(sf::RectangleShape& btn, const sf::Text& lbl);
+  bool btnClicked(const sf::Event& event);
+  void confirmChoice();
+
 private:
-  sf::Font font;
+  sf::RenderWindow& window;
+  const sf::Font& font;
+  const sf::Vector2f& modalSize;
   static const sf::Vector2f BTN_SIZE;
+  static const sf::Vector2f BTN_SIZE_SMALL;
 
   struct posType {
     sf::Vector2f modal;
     sf::Vector2f btnNewGame;
     sf::Vector2f btnSettings;
     sf::Vector2f btnExit;
+
+    sf::Vector2f modalConf;
+    sf::Vector2f btnYes;
+    sf::Vector2f btnNo;
   } pos;
  
   struct lblType {
     sf::Text btnNewGame;
     sf::Text btnSettings;
     sf::Text btnExit;
+
+    sf::Text btnYes;
+    sf::Text btnNo;
   } lbl;
 
   sf::RectangleShape modal;
   sf::RectangleShape btnNewGame;
   sf::RectangleShape btnSettings;
   sf::RectangleShape btnExit;
+
+  sf::RectangleShape modalConf;
+  sf::RectangleShape btnYes;
+  sf::RectangleShape btnNo;
+  bool showModalConf = false;
 };
 
-class MenuSettings : public Menu {};

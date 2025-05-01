@@ -37,7 +37,7 @@ int main() {
       !fontBold.loadFromFile(rootPath + "/assets/fonts/NotoSans-Bold.ttf")) { std::cerr << "Failed to load the fonts." << std::endl; return 1; }
 
   // menu creating
-  Menu mainMenu(SIZE_MENU, fontBold);
+  Menu mainMenu(window, fontBold, SIZE_MENU);
   bool renderMenu = true;
 
   //---------- event loop ----------//
@@ -50,17 +50,17 @@ int main() {
       //---------- keypresses ----------//
       if (event.type == sf::Event::KeyPressed) { 
         if (event.key.control && event.key.code == sf::Keyboard::W) window.close(); // close functionality (ctrl + w)
-        if (event.key.code == sf::Keyboard::Escape) renderMenu = false; // [!FIX]
+        if (event.key.code == sf::Keyboard::Escape) renderMenu = !(renderMenu && true); // toggle main menu
       } 
 
       //---------- mouse clicks ----------//
       // if new game is clicked, close menu and start the game, else, read other btns
-      if (renderMenu) renderMenu = !(mainMenu.btnClicked(window, event));
+      if (renderMenu) renderMenu = !(mainMenu.btnClicked(event));
     }
 
     //---------- clear/draw/display ----------//
     window.clear(sf::Color(34, 40, 49));
-    if (renderMenu) mainMenu.renderMenu(window);
+    if (renderMenu) mainMenu.renderMenu();
     window.display();
   }
 
