@@ -1,5 +1,7 @@
 #include "../include/menu.h"
 #include "../include/fonts.h"
+#include "../include/sprites.h"
+#include "../include/new_game.h"
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -11,15 +13,6 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 
-/*
-clr primary: 34, 40, 49
-clr secondary: 57, 62, 60
-clr accent: 170, 74, 68
-clr onSecondary: 148, 137, 121
-clr surface: 223, 208, 184
-sf
-*/
-
 //---------- init consts ----------//
 const sf::Vector2i SIZE_WIN(1920, 1080);
 const sf::Vector2f SIZE_MENU(static_cast<float>(SIZE_WIN.x) / 2.f, static_cast<float>(SIZE_WIN.y) / 2.f);
@@ -29,10 +22,11 @@ int main() {
   sf::RenderWindow window(sf::VideoMode(SIZE_WIN.x, SIZE_WIN.y), "Solitaire Four Seasons");
   window.setVerticalSyncEnabled(true);
   Font::loadFont(); // load noto fonts (reg and bold)
+  LoadSprite::loadTexture(); // load playing cards' sprite
 
   // menu creating
   Menu mainMenu(window, SIZE_MENU);
-  bool renderMenu = true;
+  bool renderMenu = false;
 
   //---------- event loop ----------//
   while(window.isOpen()) {
@@ -54,6 +48,8 @@ int main() {
 
     //---------- clear/draw/display ----------//
     window.clear(sf::Color(34, 40, 49));
+    NewGame newGame(window);
+    LoadSprite newSprite(window);
     if (renderMenu) mainMenu.renderMenu();
     window.display();
   }
