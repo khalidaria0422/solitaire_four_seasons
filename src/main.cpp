@@ -1,5 +1,6 @@
 #include "../include/menu.h"
 #include "../include/fonts.h"
+#include "../include/colors.h"
 #include "../include/sprites.h"
 #include "../include/new_game.h"
 #include <SFML/Graphics/Color.hpp>
@@ -22,7 +23,8 @@ int main() {
   sf::RenderWindow window(sf::VideoMode(SIZE_WIN.x, SIZE_WIN.y), "Solitaire Four Seasons");
   window.setVerticalSyncEnabled(true);
   Font::loadFont(); // load noto fonts (reg and bold)
-  LoadSprite::loadTexture(); // load playing cards' sprite
+  LoadSprite::loadTexture(); // load playing cards' texture
+  LoadSprite::assignCoords(); // assign coords to the 52 cards (each containing their respective sprite)
 
   // menu creating
   Menu mainMenu(window, SIZE_MENU);
@@ -47,9 +49,8 @@ int main() {
     }
 
     //---------- clear/draw/display ----------//
-    window.clear(sf::Color(34, 40, 49));
+    window.clear(Clr::Primary);
     NewGame newGame(window);
-    LoadSprite newSprite(window);
     if (renderMenu) mainMenu.renderMenu();
     window.display();
   }
