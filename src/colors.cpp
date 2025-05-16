@@ -6,3 +6,4 @@ const sf::Color Clr::Secondary(57, 62, 60);
 const sf::Color Clr::Accent(170, 74, 68);
 const sf::Color Clr::OnSecondary(223, 208, 184);
 const sf::Color Clr::Surface(148, 137, 121);
+const sf::Color Clr::Blur(0, 0, 0, 128);
