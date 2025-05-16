@@ -4,6 +4,7 @@
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <string>
 #include <vector>
@@ -14,16 +15,57 @@ public:
   //---------- 'structors ----------//
   NewGame(sf::RenderWindow& window);
 
-  //---------- utilities ----------//
+  //---------- utils ----------//
+  void renderNewGame();
+  void genRandDeck();
+  void centerOrigin(sf::Sprite& sprite);
   void createPlaceholder(sf::RectangleShape& ph, const sf::Color clr, const sf::Vector2f& pos);
+  void dealInit();
+
+  //---------- pub membs ----------//
+  static std::vector<int> deck;
+
+  static std::vector<std::string> hand;
+  static std::vector<std::string> waste;
+
+  // foundations
+  static std::vector<std::string> foundTopL;
+  static std::vector<std::string> foundTopR;
+  static std::vector<std::string> foundBtmL;
+  static std::vector<std::string> foundBtmR;
+
+  // tableau
+  static std::vector<std::string> tabTop;
+  static std::vector<std::string> tabRight;
+  static std::vector<std::string> tabBtm;
+  static std::vector<std::string> tabLeft;
+  static std::vector<std::string> tabCenter;
 
 private:
   sf::RenderWindow& window;
   static const sf::Vector2f PH_SIZE;
   static const float MARGIN;
 
+  struct spriteType {
+    sf::Sprite hand;
+    sf::Sprite waste;
+
+    // foundations
+    sf::Sprite foundTopL;
+    sf::Sprite foundTopR;
+    sf::Sprite foundBtmL;
+    sf::Sprite foundBtmR;
+
+    // tableau
+    sf::Sprite tabTop;
+    sf::Sprite tabRight;
+    sf::Sprite tabBtm;
+    sf::Sprite tabLeft;
+    sf::Sprite tabCenter;
+  } sprite;
+
+  //---------- placeholder pos ----------//
   struct posType {
-    //---------- placeholder pos ----------//
     sf::Vector2f phHand;
     sf::Vector2f phWaste;
 
@@ -57,21 +99,4 @@ private:
   sf::RectangleShape phBtm;
   sf::RectangleShape phLeft;
   sf::RectangleShape phCenter;
-
-  //---------- storage ----------//
-  std::vector<std::string> hand;
-  std::vector<std::string> waste;
-
-  // foundations
-  std::vector<std::string> foundTopL;
-  std::vector<std::string> foundTopR;
-  std::vector<std::string> foundBtmL;
-  std::vector<std::string> foundBtmR;
-
-  // tableau
-  std::vector<std::string> tabTop;
-  std::vector<std::string> tabRight;
-  std::vector<std::string> tabBtm;
-  std::vector<std::string> tabLeft;
-  std::vector<std::string> tabCenter;
 };
