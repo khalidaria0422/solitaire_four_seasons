@@ -13,5 +13,6 @@ public:
   static const sf::Color Accent;
   static const sf::Color OnSecondary;
   static const sf::Color Surface;
+  static const sf::Color Blur;
 };
 
