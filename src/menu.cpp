@@ -1,5 +1,6 @@
 #include "../include/menu.h"
 #include "../include/fonts.h"
+#include "../include/colors.h"
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Rect.hpp>
@@ -27,7 +28,7 @@ Menu::Menu(sf::RenderWindow& window, const sf::Vector2f& modalSize) : window(win
 
   //---------- create menu modal ----------//
   modal.setSize(modalSize);
-  modal.setFillColor(sf::Color(148, 137, 121));
+  modal.setFillColor(Clr::Surface);
   modal.setPosition(pos.modal);
 
   //---------- create menu btns ----------//
@@ -44,7 +45,7 @@ void Menu::renderMenu() {
     btnHovering(btnNewGame, lbl.btnNewGame);
     btnHovering(btnSettings, lbl.btnSettings);
     btnHovering(btnExit, lbl.btnExit);
-  } else btnExit.setFillColor(sf::Color(57, 62, 60));
+  } else btnExit.setFillColor(Clr::Secondary);
 
   window.draw(modal);
   window.draw(btnNewGame);
@@ -60,13 +61,13 @@ void Menu::renderMenu() {
 //---------- create btn ----------//
 void Menu::btnCreate(sf::RectangleShape& btn, const sf::Vector2f& btnSize, const sf::Vector2f& pos, sf::Text& lbl, const std::string& name) {
   btn.setSize(BTN_SIZE);
-  btn.setFillColor(sf::Color(57, 62, 60));
+  btn.setFillColor(Clr::Secondary);
   btn.setPosition(pos);
 
   lbl.setFont(Font::Bold);
   lbl.setString(name);
   lbl.setCharacterSize(36);
-  lbl.setFillColor(sf::Color(223, 208, 184));
+  lbl.setFillColor(Clr::OnSecondary);
 
   sf::FloatRect lblBnds = lbl.getLocalBounds();
   lbl.setOrigin(lblBnds.left + lblBnds.width / 2.f, lblBnds.top + lblBnds.height / 2.f); // set label origin to center
@@ -78,8 +79,8 @@ bool Menu::btnHovering(sf::RectangleShape& btn, const sf::Text& lbl) {
   sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
   bool hovering = btn.getGlobalBounds().contains(mousePos);
 
-  if (hovering) btn.setFillColor(lbl.getString() != "Exit" ? sf::Color(34, 40, 49) : sf::Color(170, 74, 68)); // accent color for 'Exit'
-  else btn.setFillColor(sf::Color(57, 62, 60));
+  if (hovering) btn.setFillColor(lbl.getString() != "Exit" ? Clr::Primary : Clr::Accent); // accent color for 'Exit'
+  else btn.setFillColor(Clr::Secondary);
 
   return hovering;
 }
@@ -112,20 +113,20 @@ void Menu::confirmChoice() {
 
   //---------- create confirm modal ----------//
   modalConf.setSize({modalSize.x / 2.f, modalSize.y / 2.f});
-  modalConf.setFillColor(sf::Color(148, 137, 121));
+  modalConf.setFillColor(Clr::Surface);
   modalConf.setPosition(pos.modalConf);
 
   //---------- modal title ----------//
   lbl.confTitle.setFont(Font::Bold);
   lbl.confTitle.setString("Exit Game?");
   lbl.confTitle.setCharacterSize(36);
-  lbl.confTitle.setFillColor(sf::Color(57, 62, 60));
+  lbl.confTitle.setFillColor(Clr::Secondary);
   lbl.confTitle.setPosition(pos.confTitle);
 
   lbl.confDesc.setFont(Font::Bold);
   lbl.confDesc.setString("Are you sure you want to exit?");
   lbl.confDesc.setCharacterSize(24);
-  lbl.confDesc.setFillColor(sf::Color(57, 62, 60));
+  lbl.confDesc.setFillColor(Clr::Secondary);
   lbl.confDesc.setPosition(pos.confDesc);
 
   //---------- create confirm btns ----------//
@@ -136,7 +137,7 @@ void Menu::confirmChoice() {
   
   // create a dark overlay
   sf::RectangleShape blur(sf::Vector2f(window.getSize()));
-  blur.setFillColor(sf::Color(0, 0, 0, 128));
+  blur.setFillColor(Clr::Blur);
 
   //---------- render confirm choice modal ----------//
   btnHovering(btnYes, lbl.btnExit);
