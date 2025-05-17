@@ -1,57 +1,73 @@
-#include "../include/menu.h"
-#include "../include/fonts.h"
+// main.cpp
+// -----------------------------------------------
+// Contains the main event loop, and rendering of the
+// game.
+// -----------------------------------------------
+
 #include "../include/colors.h"
-#include "../include/sprites.h"
+#include "../include/fonts.h"
+#include "../include/menu.h"
 #include "../include/new_game.h"
+#include "../include/sprites.h"
+#include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/System.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <SFML/Window.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/VideoMode.hpp>
-#include <SFML/System.hpp>
-#include <SFML/Window.hpp>
-#include <SFML/Graphics.hpp>
 
-//---------- init consts ----------//
 const sf::Vector2i SIZE_WIN(1920, 1080);
-const sf::Vector2f SIZE_MENU(static_cast<float>(SIZE_WIN.x) / 2.f, static_cast<float>(SIZE_WIN.y) / 2.f);
+const sf::Vector2f SIZE_MENU(static_cast<float>(SIZE_WIN.x) / 2.f,
+                             static_cast<float>(SIZE_WIN.y) / 2.f);
 
 int main() {
-  //---------- init vars/objs ----------//
-  sf::RenderWindow window(sf::VideoMode(SIZE_WIN.x, SIZE_WIN.y), "Solitaire Four Seasons");
+  sf::RenderWindow window(sf::VideoMode(SIZE_WIN.x, SIZE_WIN.y),
+                          "Solitaire Four Seasons");
   window.setVerticalSyncEnabled(true);
-  Font::loadFont(); // load noto fonts (reg and bold)
-  LoadSprite::loadTexture(); // load playing cards' texture
-  LoadSprite::assignCoords(); // assign coords to the 52 cards (each containing their respective sprite)
+  Font::loadFont();
+  LoadSprite::loadTexture();
+  LoadSprite::assignCoords();
 
-  // menu creating
+  // Create the main menu for the game
   Menu mainMenu(window, SIZE_MENU);
   bool renderMenu = false;
 
-  //---------- event loop ----------//
-  while(window.isOpen()) {
+  // -- Event Loop --
+  while (window.isOpen()) {
     sf::Event event;
 
     while (window.pollEvent(event)) {
-      if (event.type == sf::Event::Closed) window.close(); // close functionality (x button)
+      // Close game via the built in 'x' btn
+      if (event.type == sf::Event::Closed)
+        window.close();
 
-      //---------- keypresses ----------//
-      if (event.type == sf::Event::KeyPressed) { 
-        if (event.key.control && event.key.code == sf::Keyboard::W) window.close(); // close functionality (ctrl + w)
-        if (event.key.code == sf::Keyboard::Escape) renderMenu = !(renderMenu && true); // toggle main menu
-      } 
+      // -- Keypresses --
+      if (event.type == sf::Event::KeyPressed) {
+        if (event.key.control && event.key.code == sf::Keyboard::W)
+          window.close();
 
-      //---------- mouse clicks ----------//
-      // if new game is clicked, close menu and start the game, else, read other btns
-      if (renderMenu) renderMenu = !(mainMenu.btnClicked(event));
+        // Toggle main menu via the esc btn
+        if (event.key.code == sf::Keyboard::Escape)
+          renderMenu = !(renderMenu && true);
+      }
+
+      // -- Mouse Events --
+      // Close main menu if 'New Game' btn is clicked
+      if (renderMenu)
+        renderMenu = !(mainMenu.btnClicked(event));
     }
 
-    //---------- clear/draw/display ----------//
+    // -- Render Game --
     window.clear(Clr::Primary);
+
     NewGame newGame(window);
-    if (renderMenu) mainMenu.renderMenu();
+    if (renderMenu)
+      mainMenu.renderMenu();
+
     window.display();
   }
 

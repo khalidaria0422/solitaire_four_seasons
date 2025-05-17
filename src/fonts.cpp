@@ -1,17 +1,22 @@
+// fonts.cpp
+// -----------------------------------------------
+// Loads and provides global access to "NotoSans'" both
+// regular and bold fonts.
+// -----------------------------------------------
+
 #include "../include/fonts.h"
 #include <SFML/Graphics/Font.hpp>
-#include <iostream>
 #include <filesystem>
+#include <iostream>
 
-//---------- init consts ----------//
-const std::string rootPath = std::filesystem::current_path().string(); // path to the root project dir
+// Path to the root project dir
+const std::string rootPath = std::filesystem::current_path().string();
 
-//---------- init statics ----------//
 sf::Font Font::Reg;
 sf::Font Font::Bold;
 
-//---------- load 'NotoSans' fonts ----------//
 void Font::loadFont() {
-  if (!Reg.loadFromFile(rootPath + "/assets/fonts/NotoSans-Regular.ttf") || 
-      !Bold.loadFromFile(rootPath + "/assets/fonts/NotoSans-Bold.ttf")) std::cerr << "Failed to load the fonts." << std::endl;
+  if (!Reg.loadFromFile(rootPath + "/assets/fonts/NotoSans-Regular.ttf") ||
+      !Bold.loadFromFile(rootPath + "/assets/fonts/NotoSans-Bold.ttf"))
+    std::cerr << "Failed to load the fonts." << std::endl;
 }

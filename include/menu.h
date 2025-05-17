@@ -1,27 +1,33 @@
+// menu.h
+// -----------------------------------------------
+// Menu class provides rendering and handling of the
+// main menu UI.
+// -----------------------------------------------
+
 #pragma once
+#include <SFML/Graphics.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/System/Vector2.hpp>
-#include <SFML/Graphics.hpp>
 #include <SFML/Window/Event.hpp>
 
-//---------- class Menu ----------//
 class Menu {
 public:
-  //---------- 'structors ----------//
-  Menu(sf::RenderWindow& window, const sf::Vector2f& modalSize);
+  Menu(sf::RenderWindow &window, const sf::Vector2f &modalSize);
 
-  //---------- utilities ----------//
+  // -- Utils --
   void renderMenu();
-  void btnCreate(sf::RectangleShape& btn, const sf::Vector2f& btnSize, const sf::Vector2f& pos, sf::Text& lbl, const std::string& name);
-  bool btnHovering(sf::RectangleShape& btn, const sf::Text& lbl);
-  bool btnClicked(const sf::Event& event);
-  void confirmChoice();
+  void btnCreate(sf::RectangleShape &btn, const sf::Vector2f &btnSize,
+                 const sf::Vector2f &pos, sf::Text &lbl,
+                 const std::string &name);
+  bool btnHovering(sf::RectangleShape &btn, const sf::Text &lbl);
+  bool btnClicked(const sf::Event &event);
+  void confChoice();
 
 private:
-  sf::RenderWindow& window;
-  const sf::Vector2f& modalSize;
+  sf::RenderWindow &window;
+  const sf::Vector2f &modalSize;
   static const sf::Vector2f BTN_SIZE;
   static const sf::Vector2f BTN_SIZE_SMALL;
 
@@ -37,7 +43,7 @@ private:
     sf::Vector2f btnYes;
     sf::Vector2f btnNo;
   } pos;
- 
+
   struct lblType {
     sf::Text title;
     sf::Text btnNewGame;
@@ -60,4 +66,3 @@ private:
   sf::RectangleShape btnNo;
   bool showModalConf = false;
 };
-

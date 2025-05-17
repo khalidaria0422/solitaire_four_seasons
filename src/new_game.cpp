@@ -1,3 +1,10 @@
+// new_game.cpp
+// -----------------------------------------------
+// Creates and renders placeholders/general layout
+// of the game. It also deals (renders) the first 5
+// cards.
+// -----------------------------------------------
+
 #include "../include/new_game.h"
 #include "../include/sprites.h"
 #include <SFML/Graphics/Color.hpp>
@@ -10,21 +17,20 @@
 #include <numeric>
 #include <random>
 
-//---------- init statics ----------//
-const sf::Vector2f NewGame::PH_SIZE(160.f, 240.f); // 2.5 scale of 'SPRITE_SIZE'
+// 2.5x scale of 'SPRITE_SIZE'
+const sf::Vector2f NewGame::PH_SIZE(160.f, 240.f);
 const float NewGame::MARGIN = 50.f;
-std::vector<int> NewGame::deck(52); // create the 52 card deck
+std::vector<int> NewGame::deck(52);
 
-//---------- class NewGame ----------//
-//---------- 'structors ----------//
-NewGame::NewGame(sf::RenderWindow& window) : window(window) {
+// Generates placeholders for tableau, foundations, etc.
+NewGame::NewGame(sf::RenderWindow &window) : window(window) {
   genRandDeck();
 
-  //---------- pos offsets ----------//
-  pos.phHand = {MARGIN, MARGIN};
+  // -- Pos offsets --
+  pos.phStock = {MARGIN, MARGIN};
   pos.phWaste = {MARGIN, PH_SIZE.y + (2.f * MARGIN)};
 
-  // helpers
+  // Helpers
   float x1 = PH_SIZE.x + (3.f * MARGIN);
   float x2 = (PH_SIZE.x * 2.f) + (4.f * MARGIN);
   float x3 = (PH_SIZE.x * 3.f) + (5.f * MARGIN);
@@ -33,48 +39,49 @@ NewGame::NewGame(sf::RenderWindow& window) : window(window) {
   float y2 = PH_SIZE.y + (2.f * MARGIN);
   float y3 = (PH_SIZE.y * 2.f) + (3.f * MARGIN);
 
-  // top row
+  // Top row
   pos.phTopL = {x1, y1};
   pos.phTop = {x2, y1};
   pos.phTopR = {x3, y1};
 
-  // mdl row
+  // Mdl row
   pos.phLeft = {x1, y2};
   pos.phCenter = {x2, y2};
   pos.phRight = {x3, y2};
 
-  // btm row
+  // Btm row
   pos.phBtmL = {x1, y3};
   pos.phBtm = {x2, y3};
   pos.phBtmR = {x3, y3};
 
-  createPlaceholder(phHand, Clr::OnSecondary, pos.phHand);
+  // -- Placeholders for the stock, waste pile, tableau, and foundations --
+  createPlaceholder(phStock, Clr::OnSecondary, pos.phStock);
   createPlaceholder(phWaste, Clr::Surface, pos.phWaste);
 
-  // top row
+  // Top row
   createPlaceholder(phTopL, Clr::Accent, pos.phTopL);
   createPlaceholder(phTop, Clr::Secondary, pos.phTop);
   createPlaceholder(phTopR, Clr::Accent, pos.phTopR);
 
-  // mdl row
+  // Mdl row
   createPlaceholder(phLeft, Clr::Secondary, pos.phLeft);
   createPlaceholder(phCenter, Clr::Secondary, pos.phCenter);
   createPlaceholder(phRight, Clr::Secondary, pos.phRight);
 
-  // btm row
+  // Btm row
   createPlaceholder(phBtmL, Clr::Accent, pos.phBtmL);
   createPlaceholder(phBtm, Clr::Secondary, pos.phBtm);
   createPlaceholder(phBtmR, Clr::Accent, pos.phBtmR);
 
+  // Deal (render) the first 5 cards on the table
   dealInit();
-  renderNewGame(); // render all objects
+  renderNewGame();
 }
 
-//---------- utilities ----------//
-//---------- render objects ----------//
+// Renders the placeholders and init sprites (first 5 cards)
 void NewGame::renderNewGame() {
-  //---------- placeholders ----------//
-  window.draw(phHand);
+  // -- Placeholders --
+  window.draw(phStock);
   window.draw(phWaste);
 
   // top row
@@ -92,33 +99,40 @@ void NewGame::renderNewGame() {
   window.draw(phBtm);
   window.draw(phBtmR);
 
-  //---------- sprites ----------//
-  window.draw(sprite.hand);
+  // -- Sprites --
+  window.draw(sprite.stock);
 }
 
-//---------- generate a random non-repeating deck ----------//
+// Generates a random non-repeating deck
 void NewGame::genRandDeck() {
-  std::iota(deck.begin(), deck.end(), 1); // fill vector with consecutive values (starting at 1)
+  // Fill vector with consecutive values (starting at 1)
+  std::iota(deck.begin(), deck.end(), 1);
+
+  // -- Shuffle the deck (or vector) --
   std::random_device rd;
   static std::mt19937 gen(rd());
-  std::shuffle(deck.begin(), deck.end(), gen); // shuffle the deck based on gen
+  std::shuffle(deck.begin(), deck.end(), gen);
 }
 
-//---------- helper for centering sprite origin ----------//
-void NewGame::centerOrigin(sf::Sprite& sprite) { sprite.setOrigin(sprite.getLocalBounds().width / 2.f, sprite.getLocalBounds().height / 2.f); }
+// Centers sprite's origin
+void NewGame::centerOrigin(sf::Sprite &sprite) {
+  sprite.setOrigin(sprite.getLocalBounds().width / 2.f,
+                   sprite.getLocalBounds().height / 2.f);
+}
 
-//---------- helper for creating placeholders ----------//
-void NewGame::createPlaceholder(sf::RectangleShape& ph, const sf::Color clr, const sf::Vector2f& pos) {
+// Creates a generic placeholder (border)
+void NewGame::createPlaceholder(sf::RectangleShape &ph, const sf::Color clr,
+                                const sf::Vector2f &pos) {
   ph.setSize(PH_SIZE);
   ph.setFillColor(clr);
   ph.setPosition(pos);
 }
 
-//---------- someFunc ----------//
+// SomeFunc
 void NewGame::dealInit() {
-  centerOrigin(sprite.hand);
-  sprite.hand.setTexture(LoadSprite::Texture);
-  sprite.hand.setTextureRect(LoadSprite::card.heart.king);
-  sprite.hand.setScale(LoadSprite::SPRITE_SCALE);
-  sprite.hand.setPosition(pos.phHand.x - 32.f, pos.phHand.y - 48.f);
+  centerOrigin(sprite.stock);
+  sprite.stock.setTexture(LoadSprite::Texture);
+  sprite.stock.setTextureRect(LoadSprite::card.heart.king);
+  sprite.stock.setScale(LoadSprite::SPRITE_SCALE);
+  sprite.stock.setPosition(pos.phStock.x - 32.f, pos.phStock.y - 48.f);
 }

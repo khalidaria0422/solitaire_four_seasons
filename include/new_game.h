@@ -1,3 +1,10 @@
+// new_game.h
+// -----------------------------------------------
+// NewGame class provides utils for generating a random
+// deck, and creating placeholders/general layout of the
+// game. It also handles rendering.
+// -----------------------------------------------
+
 #pragma once
 #include "../include/colors.h"
 #include <SFML/Graphics.hpp>
@@ -9,32 +16,30 @@
 #include <string>
 #include <vector>
 
-//---------- class NewGame ----------//
 class NewGame {
 public:
-  //---------- 'structors ----------//
-  NewGame(sf::RenderWindow& window);
+  NewGame(sf::RenderWindow &window);
 
-  //---------- utils ----------//
+  // -- Utils --
   void renderNewGame();
   void genRandDeck();
-  void centerOrigin(sf::Sprite& sprite);
-  void createPlaceholder(sf::RectangleShape& ph, const sf::Color clr, const sf::Vector2f& pos);
+  void centerOrigin(sf::Sprite &sprite);
+  void createPlaceholder(sf::RectangleShape &ph, const sf::Color clr,
+                         const sf::Vector2f &pos);
   void dealInit();
 
-  //---------- pub membs ----------//
+  // -- Pub membs --
   static std::vector<int> deck;
-
-  static std::vector<std::string> hand;
+  static std::vector<std::string> stock;
   static std::vector<std::string> waste;
 
-  // foundations
+  // Foundations
   static std::vector<std::string> foundTopL;
   static std::vector<std::string> foundTopR;
   static std::vector<std::string> foundBtmL;
   static std::vector<std::string> foundBtmR;
 
-  // tableau
+  // Tableau
   static std::vector<std::string> tabTop;
   static std::vector<std::string> tabRight;
   static std::vector<std::string> tabBtm;
@@ -42,21 +47,21 @@ public:
   static std::vector<std::string> tabCenter;
 
 private:
-  sf::RenderWindow& window;
+  sf::RenderWindow &window;
   static const sf::Vector2f PH_SIZE;
   static const float MARGIN;
 
   struct spriteType {
-    sf::Sprite hand;
+    sf::Sprite stock;
     sf::Sprite waste;
 
-    // foundations
+    // Foundations
     sf::Sprite foundTopL;
     sf::Sprite foundTopR;
     sf::Sprite foundBtmL;
     sf::Sprite foundBtmR;
 
-    // tableau
+    // Tableau
     sf::Sprite tabTop;
     sf::Sprite tabRight;
     sf::Sprite tabBtm;
@@ -64,18 +69,18 @@ private:
     sf::Sprite tabCenter;
   } sprite;
 
-  //---------- placeholder pos ----------//
+  // -- Placeholder pos --
   struct posType {
-    sf::Vector2f phHand;
+    sf::Vector2f phStock;
     sf::Vector2f phWaste;
 
-    // foundations
+    // Foundations
     sf::Vector2f phTopL;
     sf::Vector2f phTopR;
     sf::Vector2f phBtmL;
     sf::Vector2f phBtmR;
 
-    // tableau
+    // Tableau
     sf::Vector2f phTop;
     sf::Vector2f phRight;
     sf::Vector2f phBtm;
@@ -83,17 +88,17 @@ private:
     sf::Vector2f phCenter;
   } pos;
 
-  //---------- placeholder rects ----------//
-  sf::RectangleShape phHand;
+  // -- Placeholder rects --
+  sf::RectangleShape phStock;
   sf::RectangleShape phWaste;
 
-  // foundations
+  // Foundations
   sf::RectangleShape phTopL;
   sf::RectangleShape phTopR;
   sf::RectangleShape phBtmL;
   sf::RectangleShape phBtmR;
 
-  // tableau
+  // Tableau
   sf::RectangleShape phTop;
   sf::RectangleShape phRight;
   sf::RectangleShape phBtm;

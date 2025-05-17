@@ -1,3 +1,9 @@
+// colors.cpp
+// -----------------------------------------------
+// Provides global colors used for UI theming across
+// the app.
+// -----------------------------------------------
+
 #include "../include/colors.h"
 #include <SFML/Graphics/Color.hpp>
 
